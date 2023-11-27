@@ -14,6 +14,9 @@ class uniqueptr
 
     uniqueptr(uniqueptr&& rhs);
     uniqueptr& operator=(uniqueptr&& rhs);
+    // public & deleted
+    uniqueptr(const uniqueptr& rhs) = delete;
+    uniqueptr& operator=(const uniqueptr& rhs) = delete;
 
     T& operator*()
     {
@@ -67,8 +70,6 @@ class uniqueptr
     template <typename U>
     friend void swap(uniqueptr<U>& lhs, uniqueptr<U>& rhs);
 private:
-    uniqueptr(const uniqueptr& rhs) = delete;
-    uniqueptr& operator=(const uniqueptr& rhs) = delete;
     T * ptr;
 };
 

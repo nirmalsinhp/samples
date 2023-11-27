@@ -45,7 +45,17 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root)
 }
 
 
+// min in binary tree - goes left till nullptr
+// max in binary tree - goes right till nullptr
+// floor 
+// ceiling 
+// rank - less than elements in tree
+
 int main()
 {
+    int x = 100;
+    auto&& i = 2;
+    auto&& j = x;
+    
     return 0;
 }

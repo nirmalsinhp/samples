@@ -277,6 +277,13 @@ int main()
     printh(&same);
     pr(10);
     pr("....");
+
+    //  auto vs decltype(auto) - auto uses type deduction, decltype always gives declared type.
+    const int& wi = 10;
+    auto aw = wi;
+    decltype(auto) daw = wi;
+//     auto x2; auto needs to be initialized
+    unique_ptr<string> us(nullptr);
     return 0;
 
 

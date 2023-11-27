@@ -18,6 +18,7 @@ sharedptr<T>& sharedptr<T>::operator=(const sharedptr& rhs)
     // increment pointer of rhs, decrement of lhs.
     auto tmp(rhs);
     swap(*this, tmp);
+    // swap with tmp , so when tmp goes out of scope, rc is decremented
 /*    ++*rhs.rc;
     decr_count();
     ptr = rhs.ptr;    

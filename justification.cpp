@@ -25,8 +25,12 @@ vector<string> fullJustify(vector<string>& words, int maxWidth) {
     {
         cout << "in else " << i <<  endl;
         int space = 1;
+        int extra = 0;
         if(tvec.size() > 1)
+        {
             space = (maxWidth - jl)/ (tvec.size() - 1);
+            extra = (maxWidth - jl) % (tvec.size() - 1);
+        }
         else
             space = (maxWidth - jl);
         cout << "space : " << space << endl;
@@ -36,6 +40,8 @@ vector<string> fullJustify(vector<string>& words, int maxWidth) {
         int j = 0;
         for(; j < tvec.size() - 1; ++j)
         {
+            if(extra-- > 0);
+                sp = sp + " ";
             res = res + tvec[j] + sp;
         }
         res += tvec[j];
@@ -52,11 +58,14 @@ vector<string> fullJustify(vector<string>& words, int maxWidth) {
 
 int main()
 {
+
     vector<string> vec = {"This", "is", "an", "example", "of", "text", "justification."};
     auto ret = fullJustify(vec, 16);
     for(const auto s : ret)
         cout << s << endl;
     return 0;
-["This    is    an","example of text","justification.  "]
-["This    is    an","example of text","justification.  "]
 }
+
+
+["This    is    an","example of text","justification.  "]
+["This    is    an","example  of text","justification.  "]

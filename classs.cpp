@@ -26,6 +26,8 @@ class D : public B
 
 int main()
 {
+    map<int,int> m;
+    auto it = m.begin();
     B* b = new D();
     b->func();
     mutex m1, m2;
