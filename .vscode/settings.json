@@ -35,6 +35,8 @@
         "bitset": "cpp",
         "ranges": "cpp",
         "ratio": "cpp",
-        "limits": "cpp"
+        "limits": "cpp",
+        "chrono": "cpp",
+        "charconv": "cpp"
     }
 }

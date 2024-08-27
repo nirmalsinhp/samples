@@ -1,0 +1,46 @@
+1. solve snowflake equality problem.
+2. compound word 
+3. spelling check, how many ways to delete a single char to reach another string.
+4. house candy - halloween
+5. number of desendent at distance d.
+6. supermarket offers
+
+
+
+
+- Hash tables free us from expensive linear searches. 
+- Trees organize hierarchical data.
+- Recursion solves problems whose solutions involve solving subproblems.
+- Memoization and dynamic programming keep recursion fast even when subproblems overlap.
+- Graphs generalize what is representable by trees.
+- Breadth-first search and Dijkstra’s algorithm find shortest paths in graphs; since graphs are so general, “paths” can mean many things.
+- Binary search turns a “solve this” problem into a “check this” problem.
+- Heaps make it fast to find minimum or maximum elements; segment trees do similarly for other kinds of queries.
+- Union-find speeds up graph problems that maintain equivalent sets of nodes.
+
+
+Graph vs union Find:
+Graph problems are mostly with fixed graphs, in union find nodes/people are added
+
+segments tree
+treaps
+Range sum queries, use prefix sum array 
+Range maximum queries, use segment trees.
+
+Break down the problem in smaller components to be solved using recursion, graph, binary search, divide & conquer etc, fit it into some generic algo/pattern and solve. dont try to solve entire prob in on go.
+
+in most cases, it is just tweak to some generic also, like predicate in STL algo, find it and plug it in generic algo.
+
+Hard problems are most of the times, combining 2 or more data structure & algo techniques, dont get bogged down.
+
+adjacent_difference not very useful in solving coding probs.
+
+
+- The heart of any algorithm is an idea. If your idea is
+not clearly revealed when you express an algorithm, then you are using too
+low-level a notation to describe it.
+- work on several smaller instance, instead of complicated hugh inputs.
+- recursion is mathematical induction in action.
+- Modeling your application in terms of well-defined struc
+tures and algorithms is the most important single step towards a solution.
+- don't get stuck on large problem, break it down in steps, or smaller version of same problems, and solve each first, then combine.  
