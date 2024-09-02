@@ -110,13 +110,15 @@ enable_if_t<is_integral_v<T>, int>
 falgo(T val)
 {
     cout << __PRETTY_FUNCTION__ << endl;
+    return val * val;
 }
 
 template <typename T>
-enable_if_t<is_floating_point_v<T>, int>
+enable_if_t<is_floating_point_v<T>, float>
 falgo(T val)
 {
     cout << __PRETTY_FUNCTION__ << endl;
+    return val * val;
 }
 
 template <typename T>
@@ -287,10 +289,11 @@ int main()
     // foo1(array<int, 7>{}, array<double, 4>{}); fails deduction 
 
     type_is<int>::type func4;
-    falgo(2);
-    falgo(3.3);
-    falgo('c');
-    falgo("c");
+    cout << " FALGO ===============" << endl;
+    cout << falgo(2) << endl;
+    cout << falgo(3.3) << endl;
+    cout << falgo('c') << endl;
+    //falgo("c");
     shared_ptr<int> pi = make_shared<int>(10);
 
     auto same = is_same_type<int, int>::value;
