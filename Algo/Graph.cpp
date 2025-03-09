@@ -1,6 +1,18 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+/*
+- Path
+- shortest path
+- cycle
+- euler tour : cycle that uses each edge exactly once : iff all nodes have even degree.
+- hamilton tour : cycle that uses each vertex exactly once : travelling sales man
+- DAG 
+- connectivity : connect all vertieces
+- Minimum spanning tree :
+- Bio connectivity : vertex whose removal disconnect graph
+- planarity : 
+- isomorphism 
+*/
 
 // preorder vs postorder in dfs, just have one line diff, when you call process/visit.
 
@@ -52,10 +64,14 @@ public:
 
 
     /*
+    DFS
+    - mark v as visited
+    - recursively visit all unmarked vertices w adjacent to v
     Applications of dfs
     - cycle detection - if edge to already visited vertice
     - connected components -  run dfs till all visited
     - topologocal sort - DAG only, reverse DFS postorder
+    - flood fill
     - bipartite - when doing dfs = mark color as opposite of parent, if already visited, and color same as parent, not bipartite.
     */
     void dfs(int start)
@@ -109,12 +125,17 @@ public:
 
 
     /*
+    BFS
+    - while Q is not empty
+        - remove nod v from queue
+        - add to queue all unmarked neighbors to v & mark them visited.
     -- changing queue to stack in BFS, gives dfs order.
     BFS applications
     - shortest paths on unweighted graphs. as nodes visited in increasing distances.
     - flood fill
+    - BFS traversal is like tree rooted at source.
     */
-    void bfs(int start)
+    void bfs(int start
     {
         deque<int> dq;
         dq.push_back(start);
@@ -144,6 +165,10 @@ public:
     }
 
 private:
+    /*
+    - initialize all vertexes unvisited.
+    - run DFS for all unvisited vertices. 
+    */
     void connected_components()
     {
         for (int i = 0; i < nv; i++)
@@ -169,7 +194,10 @@ private:
     bool directed = false;
 };
 
-int main()
+ //write a  ford fulkerson algo
+
+ 
+  int main()
 {
     fstream fs("./tinyG2.txt", ios_base::in);
     int nv;

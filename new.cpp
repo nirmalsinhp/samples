@@ -72,9 +72,15 @@ vector<int> collect_min(vector<int> vec)
 
     return out;
 }
+// string is not constexpr.
+/*constexpr string news(int s)
+{
+    return to_string(s);
+}*/
 
 int main()
 {
+    cout << erf(10) << endl;
     vector<int&> vr;
     vector<any> va;
     va.push_back(string("vf"));
@@ -169,7 +175,7 @@ int main()
     reverse(begin(s), end(s));
     auto xx = stoi(s);
     std::cout << xx << endl;
-    vector<regex> vr;
+    //vector<regex> vr;
     vr.emplace_back(nullptr);
     try
     {

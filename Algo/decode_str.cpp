@@ -3,7 +3,7 @@ using namespace std;
 
 string decoder(string& s, int& i)
 {
-    cout << i << endl;
+    //cout << i << endl;
     string res;
     string num;
     for(; i < s.size(); i++)
@@ -116,6 +116,35 @@ string decode2s(string s)
         }
     }
     return ans;
+}
+
+string decodeStringSS(string s) {
+    stack<string> SS;
+    string cs = "", cn = "";
+    string res{};
+    for(auto c : s)
+    {
+        if(isalpha(c))
+            cs += c;
+        else if(isdigit(c))
+            cn += c;
+        else if(c == '[')
+        {
+            SS.push(cs);
+            SS.push(cn);
+            cs = cn = "";
+        }
+        else
+        {
+            auto num = SS.top(); SS.pop();
+            auto str = SS.top(); SS.pop();
+            cs = str + repeat(cs, stoi(num));
+        }
+        cout << cs << endl;
+        
+    }
+    return cs;
+    
 }
 
 int main()

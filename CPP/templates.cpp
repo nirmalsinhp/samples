@@ -11,6 +11,11 @@ using namespace std;
 
 
 // template meta programming  uses template instantiation to dirve compile time evalution.
+// 2 main types
+/*
+    one using type and one using value. like typeidentity, and true type_false type.
+    no loops available, use recursion.
+*/
 
 // type identity
 template <typename T>
@@ -61,7 +66,7 @@ constexpr int absf(int N)
 }
 
 template<typename T>
-struct  arank
+struct arank
 {
     static size_t const rank = 0u;
     /* data */
@@ -73,6 +78,13 @@ struct  arank<T[N]>
 {
     static size_t const rank = 1u + arank<T>::rank;
 };
+
+template <typename T>
+struct  arank<T[]>
+{
+    static size_t const rank = 1u + arank<T>::rank;
+};
+
 
 // below 2 is consitional implementation in c++11.
 template <bool b, typename T, typename U>
@@ -115,6 +127,24 @@ struct  integral_const_m
 
     /* data */
 };
+
+// true/false type
+/*
+struct flasetype
+{
+    static constexpr bool value = false;
+}
+
+struct truetype
+{
+    static constexpr bool value = true;
+}
+below defn based on integral constant are deduced to same as above non template defn.
+*/
+
+using truetype = integral_const_m<bool, true>;
+
+using falsetype = integral_const_m<bool, false>;
 
 // rank using integral constants.
 template<typename T>

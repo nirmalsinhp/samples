@@ -3,17 +3,17 @@ using namespace std;
 
 string frequencySort(string s) {
     unordered_map<char, int> cmap;
-    for(auto c : s)
+    for (auto c : s)
     {
         cmap[c]++;
     }
-    priority_queue<pair<int, char>> pq; 
+    priority_queue<pair<int, char>> pq;
     string res;
-    for(const auto &[c, freq] : cmap)
+    for (const auto& [c, freq] : cmap)
     {
-        pq.push({freq, c});
+        pq.push({ freq, c });
     }
-    while(!pq.empty())
+    while (!pq.empty())
     {
         auto kv = pq.top();
         res += string(kv.first, kv.second);
@@ -26,15 +26,15 @@ bool is_anagram(const string& s, const string& t)
 {
     unordered_map<char, int> smap;
     unordered_map<char, int> tmap;
-    if(s.length() != t.length())
+    if (s.length() != t.length())
         return false;
-    for(auto i = 0; i < s.size(); ++i)
+    for (auto i = 0; i < s.size(); ++i)
     {
         smap[s[i]]++;
         tmap[t[i]]++;
     }
 
-    if(smap == tmap)
+    if (smap == tmap)
         return true;
     return false;
 }
@@ -45,43 +45,78 @@ int brute_s(const string& text, const string& pattern)
     // O(1) space
     int n = text.size();
     int m = pattern.size();
-    for(int i = 0; i < n; ++i)
+    for (int i = 0; i < n; ++i)
     {
         int j;
         // start search for pattern, starting with i, to i +j
-        for(j = 0; j < m && i  + j < n; ++j)
+        for (j = 0; j < m && i + j < n; ++j)
         {
-            if(text[i + j] != pattern[j])
+            if (text[i + j] != pattern[j])
                 break;
         }
-        if(j == m)
+        if (j == m)
             return i;
     }
     return -1;
 }
 
+// O(n) time, O(1) space
 int len_last_word(string s)
 {
-    int iter = s.find_last_of(' ');
-    auto len = s.size() -  iter -1;
+    int iter = s.find_last_not_of(' ');
+    if (iter == string::npos) return 0;
+    int end = iter;
+    iter = s.find_last_of(' ', end);
+    return end - iter;
 }
- 
+
 string reverseWord(string s)
 {
     string ret;
     auto start = s.rbegin();
     auto end = s.rend();
-    while(start != end)
+    while (start != end)
     {
-    auto iter = find_if(start, end, [](auto c)
-                                    {return !isspace(c);}); 
-    auto iter2 = find_if(iter, end, [](auto c)
-                                    {return isspace(c);});
-    string token = string(iter2.base(), iter.base());
-    ret += token + " ";
-    start = iter2;
+        auto iter = find_if(start, end, [](auto c)
+            {return !isspace(c);});
+        auto iter2 = find_if(iter, end, [](auto c)
+            {return isspace(c);});
+        if (iter != end) {
+            string token = string(iter2.base(), iter.base());
+            ret += token + " ";
+        }
+        start = iter2;
+    }
+    if (!ret.empty() && ret.back() == ' ') {
+        ret.pop_back();
     }
     return ret;
+}
+
+size_t boyer_moore(const string& T, const string& P)
+{
+    int n = T.size();
+    int m = P.size();
+    // using vector with all char in radix initialized to -1 makes checking for mismatch easy, incase we have fixed radix.
+    unordered_map<char, int> last;
+    for (int i = 0; i < P.size(); ++i)
+        last[P[i]] = i;
+    int skip = 0;
+    for (int i = 0; i <= n - m; i += skip)
+    {
+        skip = 0;
+        for(int j = m - 1; j >= 0; --j)
+        {
+            if(P[j] != T[i + j])
+            {
+                skip = max(1, j - (last.count(T[i + j]) ? last[T[i + j]] : -1));
+                break;
+            }
+        }
+        if(skip == 0)
+            return i;
+    }
+    return n;
 }
 
 int main()
@@ -96,10 +131,13 @@ int main()
 
     bool anagram = is_anagram("anagram", "nagaram");
     bool ananot = is_anagram("anagrat", "nagaram");
-    cout << anagram <<  endl;
-    cout << ananot <<  endl;
+    cout << anagram << endl;
+    cout << ananot << endl;
 
-    auto frs  = frequencySort("tree");
+    auto frs = frequencySort("tree");
     cout << frs << endl;
-    
+
+    auto fi = boyer_moore(text, pat);
+    if(fi < text.size()) 
+        cout << text.substr(fi, pat.size()) << endl;
 }

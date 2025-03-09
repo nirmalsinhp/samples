@@ -2,7 +2,7 @@
 
 using namespace std;
 
-auto minmax(const vector<int> &a)
+auto minmax(const vector<int>& a)
 {
     auto [m1, n1] = minmax_element(a.begin(), a.end());
     return *n1 - *m1;
@@ -29,7 +29,7 @@ I l_bound(I f, I l, T v)
 // find middle element, compare with item to be searched, if == return mid, if greater than item high = mid - 1
 // else low  =  mid + 1, nlogn time
 template <typename T>
-int b_s(vector<T> seq, T item)
+int b_s(const vector<T>& seq, T item)
 {
     /*
     int low = 0;
@@ -73,7 +73,7 @@ int b_s(vector<T> seq, T item)
 }
 
 template <typename T>
-int bsr(vector<T> &seq, T item, int low, int high)
+int bsr(vector<T>& seq, T item, int low, int high)
 {
     cout << "bsr called with " << item << " " << low << " " << high << endl;
     if (low <= high)
@@ -89,12 +89,12 @@ int bsr(vector<T> &seq, T item, int low, int high)
 }
 
 template <typename T>
-int b_s_r(vector<T> &seq, T item)
+int b_s_r(vector<T>& seq, T item)
 {
     return bsr(seq, item, 0, seq.size() - 1);
 }
 
-int part(vector<int> &vec, int l, int h)
+int part(vector<int>& vec, int l, int h)
 {
     int p = h;
     int fh = l;
@@ -110,7 +110,7 @@ int part(vector<int> &vec, int l, int h)
     return fh;
 }
 
-void qs(vector<int> &vec, int l, int h)
+void qs(vector<int>& vec, int l, int h)
 {
     if (l < h)
         return;
@@ -119,7 +119,7 @@ void qs(vector<int> &vec, int l, int h)
     qs(vec, p + 1, h);
 }
 
-void quicksort(vector<int> &vec)
+void quicksort(vector<int>& vec)
 {
     qs(vec, 0, vec.size() - 1);
     return;
@@ -127,7 +127,7 @@ void quicksort(vector<int> &vec)
 
 // find smallest element, and swap values, repeat n times, n2 run time
 template <typename T>
-void selection_sort(vector<T> &vec)
+void selection_sort(vector<T>& vec)
 {
     int min = 0;
     int size = vec.size();
@@ -145,10 +145,10 @@ void selection_sort(vector<T> &vec)
 
 int main()
 {
-    vector<int> nums{1, 2, 3, 4, 3, 4, 2, 4, 24, 4, 3, 42, 423, 323, 3};
+    vector<int> nums{ 1, 2, 3, 4, 3, 4, 2, 4, 24, 4, 3, 42, 423, 323, 3 };
     nth_element(nums.begin(), nums.begin() + 3, nums.end(), greater<int>());
     cout << *(nums.begin() + 2) << endl;
-    vector<int> s = {1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 22, 23, 45};
+    vector<int> s = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 22, 23, 45 };
     cout << "search_out" << b_s(s, 5) << endl;
     cout << "search_out" << b_s(s, 25) << endl;
     cout << "search_out recursve :" << b_s_r(s, 25) << endl;
@@ -163,13 +163,13 @@ int main()
     cout << "lbound : " << (l25 != s.end() ? *l25 : -1) << endl;
     cout << "lbound : " << (l5 != s.end() ? *l5 : -1) << endl;
     selection_sort(nums);
-    vector<double> dv{1, 2, 3, 4.4, 4.3, 4.1, 4.2, 4.6, 3.5, 89, 8.9};
+    vector<double> dv{ 1, 2, 3, 4.4, 4.3, 4.1, 4.2, 4.6, 3.5, 89, 8.9 };
     // selection_sort(dv);
     quicksort(nums);
     copy(nums.begin(), nums.end(), ostream_iterator<int>(cout, ", "));
     cout << endl;
     copy(dv.begin(), dv.end(), ostream_iterator<double>(cout, ", "));
-    vector<vector<int>> vec = {{1, 2}, {2, 3}};
+    vector<vector<int>> vec = { {1, 2}, {2, 3} };
     cout << " vec back : " << endl;
     cout << vec.back()[1] << endl;
     return 0;

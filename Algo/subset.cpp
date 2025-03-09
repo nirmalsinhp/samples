@@ -1,6 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+
+// imagine a solution-space tree.
+// 1. recurse to possible neighbors
+// 2. prune the tree if the solution is not feasible.
+// 3.  if the solution is feasible, add to the solution set.
+// 4.  if the solution is not feasible, backtrack to the previous state.
+
 constexpr int N = 8;
 vector<int> vec{1,2,3};
 vector<vector<int>> powerset(const int n)
@@ -45,7 +52,7 @@ vector<vector<int>> bpowerset(const int n)
     return res;
 }
 
-vector<vector<int>> comb(vector<int>& C)
+vector<vector<int>> comb(const vector<int>& C) // Use const reference
 {
     vector<vector<int>> res;
     res.push_back({});

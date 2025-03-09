@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include "WGraph.h"
 using namespace std;
 
 struct Edge
@@ -61,7 +62,7 @@ public:
         parent.clear();
         parent.assign(nv, -1);
         dist.clear();
-        dist.assign(nv, INT_MAX);
+        dist.assign(nv, numeric_limits<double>::max());
     }
 
 
@@ -171,7 +172,9 @@ public:
         return topo_sort;
     }
 
-    //. Dijkstra's algorithm initializing dist[s] to 0 and all other distTo[] entries to positive infinity. Then, it repeatedly relaxes and adds to the tree a non-tree vertex with the lowest distTo[] value, continuing until all vertices are on the tree or no non-tree vertex has a finite distTo[] value.
+    /* . Dijkstra's algorithm initializing dist[s] to 0 and all other distTo[] entries to positive infinity. Then, it repeatedly relaxes and adds to the tree a non-tree vertex with the lowest distTo[] value, continuing until all vertices are on the tree or no non-tree vertex has a finite distTo[] value.
+    - does not work with -ve weights.
+    */
     vector<int> Dijkstra(int s)
     {
         /* 2 steps
@@ -196,7 +199,7 @@ public:
             }
 
             // find next vertice.
-            auto di = INT_MAX;
+            auto di = numeric_limits<double>::max();
             int i = 0;
             for(int i =0 ; i < nv; i++)
             {
@@ -266,6 +269,69 @@ public:
         return num_components;
     }
 
+    // Ford-Fulkerson algorithm to find maximum flow
+    bool bfs_ff(vector<vector<int>> &rGraph, int s, int t, vector<int> &parent) const
+    {
+        fill(visited.begin(), visited.end(), false);
+        deque<int> dq;
+        dq.push_back(s);
+        visited[s] = true;
+        parent[s] = -1;
+
+        while (!dq.empty())
+        {
+            int u = dq.front();
+            dq.pop_front();
+
+            for (int v = 0; v < nv; v++)
+            {
+                if (!visited[v] && rGraph[u][v] > 0)
+                {
+                    dq.push_back(v);
+                    parent[v] = u;
+                    visited[v] = true;
+                }
+            }
+        }
+        return visited[t];
+    }
+
+    int ford_fulkerson(int s, int t)
+    {
+        vector<vector<int>> rGraph(nv, vector<int>(nv, 0));
+        for (int u = 0; u < nv; u++)
+        {
+            for (const auto &e : al[u])
+            {
+                rGraph[u][e.tv] = e.weight;
+            }
+        }
+
+        vector<int> parent(nv);
+        int max_flow = 0;
+
+        while (bfs_ff(rGraph, s, t, parent))
+        {
+            int path_flow = numeric_limits<int>::max();
+            for (int v = t; v != s; v = parent[v])
+            {
+                int u = parent[v];
+                path_flow = min(path_flow, rGraph[u][v]);
+            }
+
+            for (int v = t; v != s; v = parent[v])
+            {
+                int u = parent[v];
+                rGraph[u][v] -= path_flow;
+                rGraph[v][u] += path_flow;
+            }
+
+            max_flow += path_flow;
+        }
+
+        return max_flow;
+    }
+
 private:
     void connected_components()
     {
@@ -308,6 +374,12 @@ private:
 int main()
 {
     fstream fs("./tinygw.txt", ios_base::in);
+    if (!fs.is_open())
+    {
+        cerr << "Error opening file" << endl;
+        return 1;
+    }
+
     int nv;
     fs >> nv;
     int ne;
@@ -358,5 +430,9 @@ int main()
     for(auto v : sp)
         cout << v << " ";
     cout << endl;
+
+    G.init();
+    cout << "Ford-Fulkerson Max Flow from 0 to 5: " << G.ford_fulkerson(0, 2) << endl;
+
     return 0;
 }

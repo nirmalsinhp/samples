@@ -2,6 +2,25 @@
 #include <typeinfo>
 using namespace std;
 
+
+template <class T>
+void gf(T const& t) // function template
+{
+    cout  << __PRETTY_FUNCTION__ << endl;
+}
+
+template <>
+void gf(int const &) // specialization 
+{
+    cout  << __PRETTY_FUNCTION__ << endl;
+}
+
+void gf(double d) // normal function
+{
+    cout  << __PRETTY_FUNCTION__ << endl;    
+}
+
+
 template <typename T>
 void f(T a, T b)
 {

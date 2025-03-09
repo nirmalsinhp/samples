@@ -27,7 +27,7 @@ while(!end)
 // running sum , and max sum,
 int findMaxSubArraySum(const vector<int> &arr, int k)
 {
-    int maxSum = INT_MIN;
+    int maxSum = std::numeric_limits<int>::min();
     int currSum = 0;
     int ws = 0;
     for (int i = 0; i < arr.size(); ++i)
@@ -36,7 +36,7 @@ int findMaxSubArraySum(const vector<int> &arr, int k)
         if (i >= k - 1) // reached K // window size
         {
             maxSum = max(maxSum, currSum);
-            currSum -= arr[ws++]; // slide & subtract the furthesr left  value.
+            currSum -= arr[ws++]; // slide the window and subtract the leftmost element from the current sum.
         }
     }
     return maxSum;
@@ -56,14 +56,14 @@ int smallestSubArray(const vector<int> &arr, int sum)
     for (int we = 0; we < arr.size(); ++we)
     {
         currSum += arr[we];
-        while (currSum >= sum) // check if condition is satisfied,
+        while (currSum >= sum) // check if the current sum is greater than or equal to the target sum
         {
             wSize = min(wSize, we - ws + 1);
-            currSum -= arr[ws]; // try to improve/optimize further till cond is true.
+            currSum -= arr[ws]; // shrink the window from the left to find the smallest subarray that meets the condition
             ws++;
         }
     }
-    return wSize;
+    return wSize == INT_MAX ? -1 : wSize;
 }
 
 // dynamic window type 1
@@ -71,7 +71,7 @@ int lengthOfLongestSubstring(string s)
 {
     int ws = 0;
     int we = 0;
-    int wm = INT_MIN;
+    int wm = 0;
     unordered_set<char> map;
 
     for (; we < s.length(); we++)
@@ -84,7 +84,7 @@ int lengthOfLongestSubstring(string s)
         map.insert(s[we]);
         wm = max(wm, we - ws + 1); // keep increasing it condition is satisfied.
     }
-    return wm == INT_MIN ? 0 : wm;
+    return wm;
 }
 
 void decrFreq(unordered_map<char, int> &map, char c)
@@ -141,6 +141,7 @@ int characterReplacement(string s, int k)
     return max_len;
 }
 
+// https://leetcode.com/problems/minimum-operations-to-reduce-x-to-zero/description/
 int findMinOps(const vector<int> &arr, int x)
 {
     auto sum = accumulate(arr.begin(), arr.end(), 0);
@@ -264,27 +265,27 @@ string minWindow2(string s, string t)
     return d == INT_MAX ? "" : s.substr(head, d);
 }
 
-// this is wrong,
-int subarraysWithKDistinct(vector<int> &nums, int k)
+int sliding(vector<int>& nums, int k)
 {
     unordered_map<int, int> fmap;
-    int ws = 0;
-    int res = 0;
-    for (int we = 0; we < nums.size(); ++we)
+    int ws = 0, we = 0, cnt = 0;
+    for(; we < nums.size(); ++we)
     {
         fmap[nums[we]]++;
-        if (fmap.size() == k)
+        while(fmap.size() > k)
         {
-            while (fmap.size() == k)
-            {
-                if (--fmap[nums[ws]] == 0)
-                    fmap.erase(nums[ws]);
-                ws++;
-            }
-            res += ws;
+            if(--fmap[nums[ws]] == 0)
+                fmap.erase(nums[ws]);
+            ws++;
         }
+        cnt += we - ws + 1;
     }
-    return res;
+    return cnt;
+}
+
+
+int subarraysWithKDistinct(vector<int>& nums, int k) {
+    return sliding(nums, k) - sliding(nums, k - 1);
 }
 
 int longestSubarray(vector<int> &nums, int limit)
@@ -324,10 +325,10 @@ int main()
 
     auto lenm = longestSubarray(nns, 4);
     cout << "max lenght" << lenm << endl;
-    return 0;
+    //return 0;
     vector<int> nums = {1, 2, 1, 2, 3};
     auto ks = subarraysWithKDistinct(nums, 2);
-    return 0;
+    //return 0;
     vector<int> vec{4, 2, 1, 7, 8, 1, 2, 8, 1, 0};
     auto maxSum = findMaxSubArraySum(vec, 3);
     cout << "MaxSum : " << maxSum << endl;

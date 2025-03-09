@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
-
+#include <atomic>
+#include <iostream>
+//#include <format>
 using namespace std;
 
 struct mys
@@ -18,7 +20,7 @@ void shared_print(string msg, int id)
     // lock_guard<mutex> guard2(mu2, adopt_lock);
     //mu.lock();
     unique_lock ul(mu, defer_lock);
-    unique_lock ul(mu);
+    //unique_lock ul(mu);
  //   cout << "not locked" << endl;
     //ul.lock();
     cout << msg << " " << id << endl;
@@ -68,7 +70,25 @@ function<int(int, const string&, mys&)> ff = [](int n, const string& s, mys& m){
 
 int main()
 {
- 
+
+static_assert(atomic<int>::is_always_lock_free , "int");
+static_assert(atomic<double>::is_always_lock_free, "double");
+//static_assert(atomic<string>::is_always_lock_free, "string");
+
+
+    size_t cap = 20;
+    size_t mask = cap -1;
+
+    size_t cur = 122;
+    auto mdc = cur % cap;
+    auto mkc = cur & mask;
+    std::cout << std::hex << cur << " " << cap << " " << mask << endl;
+    std::cout <<  std::bitset<sizeof(size_t)>(cur) << endl << std::bitset<sizeof(size_t)>(cap) << endl << std::bitset<sizeof(size_t)>(mask) << endl;
+    std::cout << mdc << " " << mkc << endl;
+    std::cout << std::bitset<sizeof(size_t)>(mdc) << endl << std::bitset<sizeof(size_t)>(mkc) << endl;
+    return 0;
+
+
  {
     thread a([](){
             cout << "sleeping" << endl;

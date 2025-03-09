@@ -45,7 +45,7 @@ public:
     void reset()
     {
         //        decr_count();
-        auto tmp = sharedptr<T>();
+        auto tmp = sharedptr();
         swap(tmp, *this);
     }
 

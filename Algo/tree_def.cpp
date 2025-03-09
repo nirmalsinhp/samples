@@ -214,7 +214,7 @@ tree *predecessor_descendant(tree *t)
     }
     return (pred);
 }
-
+// replace node with the smallest child in the right child's subtree or the greatest child in the left subtree.
 /* [[[ delete_tree_cut */
 tree *delete_tree(tree *t, int x)
 {
